@@ -7,11 +7,16 @@
 			</button>
 		</div>
 		<div class="text-neutral-500 text-lg font-bold">
-			{{ dayjs().format("ddd, DD MMM") }}
+			{{ dayjs(selectedDate).format("ddd, DD MMM") }}
 		</div>
 		<div class="flex flex-col gap-2">
-			<event-card></event-card>
-			<appointment-card></appointment-card>
+			<div v-if="listEvent?.length === 0" class="mx-auto">
+				<div class="text-neutral-400">No event today</div>
+			</div>
+			<template v-for="item in listEvent" :key="item.id">
+				<event-card v-if="item.type === EventType.EVENT" />
+				<appointment-card v-else />
+			</template>
 		</div>
 	</div>
 </template>
@@ -20,6 +25,21 @@
 	import dayjs from "dayjs";
 	import EventCard from "./event-card.vue";
 	import AppointmentCard from "./appointment-card.vue";
+	import { defineProps, computed, watch } from "vue";
+	import type { EventModel } from "../models/event-model";
+	import { EventType } from "../utils/constant";
+
+	const props = defineProps({
+		selectedDate: String,
+		listEvent: Array<EventModel> || undefined,
+	});
+
+	const selectedDate = computed(() => props.selectedDate);
+	const listEvent = computed(() => props.listEvent);
+
+	watch(listEvent, (newVal) => {
+		console.log(newVal?.length);
+	});
 </script>
 
 <style scoped></style>
