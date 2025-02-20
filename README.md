@@ -31,7 +31,7 @@ In my opinion, there are 2 ways to display data structures for this screen, whic
 Because I want to call API with param `month` to get events and appointments in that month:
 
 ```typescript
-  GET /api/calendar?month=2025-02
+  GET /api/calendar/event?month=2025-02
 ```
 
 ### 2. Develop and send us a preview of your work. BONUS: Design and develop the Recurring event. Propose a few ways on how you will do this
