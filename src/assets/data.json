@@ -23,6 +23,14 @@
 			"dateInMonth": 21,
 			"start": "09:00",
 			"end": "10:00"
+		},
+		{
+			"id": 4,
+			"type": 1,
+			"title": "LUNCH & LEARN",
+			"dateInMonth": 18,
+			"start": "12:00",
+			"end": "14:30"
 		}
 	]
 }

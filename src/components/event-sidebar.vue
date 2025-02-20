@@ -14,8 +14,8 @@
 				<div class="text-neutral-400">No event today</div>
 			</div>
 			<template v-for="item in listEvent" :key="item.id">
-				<event-card v-if="item.type === EventType.EVENT" />
-				<appointment-card v-else />
+				<event-card v-if="item.type === EventType.EVENT" :event="item" />
+				<appointment-card v-else :appointment="item" />
 			</template>
 		</div>
 	</div>

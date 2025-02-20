@@ -5,33 +5,36 @@
 				v-model:value="date"
 				@select="onSelect"
 				@panelChange="onPanelChange"
+				:fullscreen="isFullScreenCalendar"
 			>
 				<template #dateCellRender="{ current }">
-					<div v-for="item in getListData(current)" :key="item.id">
-						<div
-							class="w-full flex flex-row"
-							:class="{
-								'bg-light-blue': item.type === EventType.APPOINTMENT,
-								'bg-light-orange': item.type === EventType.EVENT,
-							}"
-						>
+					<div v-if="isFullScreenCalendar">
+						<template v-for="item in getListData(current)" :key="item.id">
 							<div
-								class="w-1"
+								class="w-full flex flex-row overflow-hidden"
 								:class="{
-									'bg-light-orange': item.type === EventType.APPOINTMENT,
-									'bg-light-blue': item.type === EventType.EVENT,
-								}"
-							></div>
-							<span
-								class="truncate px-2 py-1 font-semibold"
-								:class="{
-									'text-white': item.type === EventType.APPOINTMENT,
-									'text-dark-blue': item.type === EventType.EVENT,
+									'bg-light-blue': item.type === EventType.APPOINTMENT,
+									'bg-light-orange': item.type === EventType.EVENT,
 								}"
 							>
-								{{ item.title }}
-							</span>
-						</div>
+								<div
+									class="w-1"
+									:class="{
+										'bg-dark-orange': item.type === EventType.APPOINTMENT,
+										'bg-light-blue': item.type === EventType.EVENT,
+									}"
+								></div>
+								<span
+									class="truncate px-2 py-1 font-semibold"
+									:class="{
+										'text-white': item.type === EventType.APPOINTMENT,
+										'text-dark-blue': item.type === EventType.EVENT,
+									}"
+								>
+									{{ item.title }}
+								</span>
+							</div>
+						</template>
 					</div>
 				</template>
 			</a-calendar>
@@ -46,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from "vue";
+	import { computed, ref } from "vue";
 	import dayjs, { Dayjs } from "dayjs";
 	import BaseLayout from "../layouts/base-layout.vue";
 	import EventSidebar from "../components/event-sidebar.vue";
@@ -80,6 +83,10 @@
 
 		return listData || [];
 	};
+
+	const isFullScreenCalendar = computed(() => {
+		return window.innerWidth >= 1024;
+	});
 </script>
 
 <style lang="scss" scoped></style>
