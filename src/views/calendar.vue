@@ -1,6 +1,16 @@
 <template>
 	<base-layout>
 		<template #calendar>
+			<!-- Button change type of calendar -->
+			<div class="w-full lg:hidden flex">
+				<button
+					class="w-full px-4 py-2 bg-dark-blue rounded-lg"
+					@click="isFullScreenCalendar = !isFullScreenCalendar"
+				>
+					<span class="text-white">Change calendar type</span>
+				</button>
+			</div>
+			<!-- Calendar -->
 			<a-calendar
 				v-model:value="date"
 				@select="onSelect"
@@ -49,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, ref } from "vue";
+	import { ref, watch } from "vue";
 	import dayjs, { Dayjs } from "dayjs";
 	import BaseLayout from "../layouts/base-layout.vue";
 	import EventSidebar from "../components/event-sidebar.vue";
@@ -84,9 +94,23 @@
 		return listData || [];
 	};
 
-	const isFullScreenCalendar = computed(() => {
-		return window.innerWidth >= 1024;
+	const screenWidth = ref(window.innerWidth);
+
+	const isFullScreenCalendar = ref(true);
+
+	watch(screenWidth, (newValue) => {
+		if (newValue < 1024) {
+			isFullScreenCalendar.value = false;
+		} else {
+			isFullScreenCalendar.value = true;
+		}
 	});
+
+	const updateScreenWidth = () => {
+		screenWidth.value = window.innerWidth;
+	};
+
+	window.addEventListener("resize", updateScreenWidth);
 </script>
 
 <style lang="scss" scoped></style>
